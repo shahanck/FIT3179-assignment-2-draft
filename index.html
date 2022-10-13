@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="pure-u-1-2">
-          <div id="line_Chart" class="vis-container">
+          <div id="line_chart" class="vis-container">
             <h2>Line Chart</h2>
           </div>
         </div>
@@ -61,7 +61,7 @@
 <script type="text/javascript">
     var vis1 = "js/map.vg.json";
     var vis2 = "js/bar_chart.vg.json";
-    var vis3 = "js/line_Chart.vg.json";
+    var vis3 = "js/line_chart.vg.json";
     var vis4 = "js/status_pie.vg.json";
     var vis5 = "js/type_pie.vg.json";
 
@@ -69,7 +69,7 @@
     vegaEmbed('#bar_chart', vis2, {"action": false});
     vegaEmbed('#status_pie', vis4, {"action": false});
     vegaEmbed('#type_pie', vis5, {"action": false});
-    vegaEmbed('#line_Chart', vis3, {"action": false}).then(function(result) {
+    vegaEmbed('#line_chart', vis3, {"action": false}).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
     }).catch(console.error);
     </script>

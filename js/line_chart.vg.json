@@ -9,12 +9,16 @@
   "data": [
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","},
       "transform": [
         {
+          "type": "filter",
+          "expr": "!isValid(datum[\"Name\"]) || !isFinite(+datum[\"Name\"])"
+        },
+        {
           "type": "aggregate",
-          "groupby": ["Year", "Deaths"],
+          "groupby": ["Year"],
           "ops": ["count"],
           "fields": [null],
           "as": ["__count"]
@@ -24,7 +28,7 @@
   ],
   "marks": [
     {
-      "name": "marks",
+      "name": "layer_0_marks",
       "type": "line",
       "style": ["line"],
       "sort": {"field": "datum[\"Year\"]"},
@@ -33,16 +37,36 @@
         "update": {
           "stroke": {"value": "#a12424"},
           "tooltip": {
-            "signal": "{\"Deaths\": format(datum[\"Deaths\"], \",\")}"
+            "signal": "{\"Number of Eruptions\": format(datum[\"__count\"], \",\")}"
           },
           "description": {
-            "signal": "\"Year: \" + (isValid(datum[\"Year\"]) ? datum[\"Year\"] : \"\"+datum[\"Year\"]) + \"; Number of eruptions: \" + (format(datum[\"__count\"], \"\")) + \"; Deaths: \" + (format(datum[\"Deaths\"], \",\"))"
+            "signal": "\"Year: \" + (isValid(datum[\"Year\"]) ? datum[\"Year\"] : \"\"+datum[\"Year\"]) + \"; Number of eruptions: \" + (format(datum[\"__count\"], \"\")) + \"; Number of Eruptions: \" + (format(datum[\"__count\"], \",\"))"
           },
           "x": {"scale": "x", "field": "Year"},
           "y": {"scale": "y", "field": "__count"},
           "defined": {
             "signal": "isValid(datum[\"__count\"]) && isFinite(+datum[\"__count\"])"
           }
+        }
+      }
+    },
+    {
+      "name": "layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "dy": {"value": -15},
+          "fill": {"value": "black"},
+          "description": {
+            "signal": "\"Year: \" + (isValid(datum[\"Year\"]) ? datum[\"Year\"] : \"\"+datum[\"Year\"]) + \"; Number of eruptions: \" + (format(datum[\"__count\"], \"\")) + \"; Count of Records: \" + (format(datum[\"__count\"], \"\"))"
+          },
+          "x": {"scale": "x", "field": "Year"},
+          "y": {"scale": "y", "field": "__count"},
+          "text": {"signal": "format(datum[\"__count\"], \"\")"},
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"}
         }
       }
     }

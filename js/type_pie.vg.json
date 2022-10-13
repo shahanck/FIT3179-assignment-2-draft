@@ -1,0 +1,216 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 500,
+  "height": 400,
+  "title": {"text": "Deaths by Volcanoes", "frame": "group"},
+  "data": [
+    {"name": "type_opacity_store"},
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
+      "format": {"type": "csv", "delimiter": ","}
+    },
+    {
+      "name": "data_0",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!isValid(datum[\"Name\"]) || !isFinite(+datum[\"Name\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "type_opacity_Type_legend",
+      "value": null,
+      "on": [
+        {
+          "events": [
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Type_legend_symbols"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Type_legend_labels"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Type_legend_entries"
+            }
+          ],
+          "update": "datum.value || item().items[0].items[0].datum.value",
+          "force": true
+        },
+        {
+          "events": [{"source": "view", "type": "click"}],
+          "update": "!event.item || !datum ? null : type_opacity_Type_legend",
+          "force": true
+        }
+      ]
+    },
+    {
+      "name": "type_opacity",
+      "update": "vlSelectionResolve(\"type_opacity_store\", \"union\", true, true)"
+    },
+    {
+      "name": "type_opacity_tuple",
+      "update": "type_opacity_Type_legend !== null ? {fields: type_opacity_tuple_fields, values: [type_opacity_Type_legend]} : null"
+    },
+    {
+      "name": "type_opacity_tuple_fields",
+      "value": [{"type": "E", "field": "Type"}]
+    },
+    {
+      "name": "type_opacity_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": {"merge": [{"source": "view", "type": "click"}]},
+          "update": "event.shiftKey"
+        }
+      ]
+    },
+    {
+      "name": "type_opacity_modify",
+      "on": [
+        {
+          "events": {"signal": "type_opacity_tuple"},
+          "update": "modify(\"type_opacity_store\", type_opacity_toggle ? null : type_opacity_tuple, type_opacity_toggle ? null : true, type_opacity_toggle ? type_opacity_tuple : null)"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_marks",
+      "type": "arc",
+      "style": ["arc"],
+      "interactive": true,
+      "from": {"data": "data_0"},
+      "encode": {
+        "update": {
+          "fill": {"scale": "color", "field": "Type"},
+          "opacity": [
+            {
+              "test": "!length(data(\"type_opacity_store\")) || vlSelectionTest(\"type_opacity_store\", datum)",
+              "value": 1
+            },
+            {"value": 0}
+          ],
+          "tooltip": {
+            "signal": "{\"Name\": isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"], \"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"Deaths\": format(datum[\"DEATHS\"], \",\"), \"Latitude\": format(datum[\"Latitude\"], \"\"), \"Longitude\": format(datum[\"Longitude\"], \"\"), \"Elevation\": format(datum[\"Elevation\"], \"\"), \"Type\": isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"], \"Status\": isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"]}"
+          },
+          "description": {
+            "signal": "\"Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Type: \" + (isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"]) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Deaths: \" + (format(datum[\"DEATHS\"], \",\")) + \"; Latitude: \" + (format(datum[\"Latitude\"], \"\")) + \"; Longitude: \" + (format(datum[\"Longitude\"], \"\")) + \"; Elevation: \" + (format(datum[\"Elevation\"], \"\")) + \"; Status: \" + (isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "outerRadius": {"signal": "min(width,height)/2"},
+          "innerRadius": {"value": 0},
+          "startAngle": {"scale": "theta", "field": "Name"},
+          "endAngle": {
+            "scale": "theta",
+            "field": "Name",
+            "offset": {"scale": "theta", "band": 1}
+          }
+        }
+      }
+    },
+    {
+      "name": "layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "fill": {"value": "black"},
+          "description": {
+            "signal": "\"Type: \" + (isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "text": {
+            "signal": "isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"]"
+          },
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"}
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "theta",
+      "type": "band",
+      "domain": {
+        "data": "data_0",
+        "field": "Name",
+        "sort": {"op": "min", "field": "Type"}
+      },
+      "range": [0, 6.283185307179586]
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "data_0", "field": "Type", "sort": true},
+      "range": "category"
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "symbolType": "circle",
+      "title": "Type",
+      "encode": {
+        "labels": {
+          "name": "Type_legend_labels",
+          "interactive": true,
+          "update": {
+            "opacity": [
+              {
+                "test": "(!length(data(\"type_opacity_store\")) || (type_opacity[\"Type\"] && indexof(type_opacity[\"Type\"], datum.value) >= 0))",
+                "value": 1
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "symbols": {
+          "name": "Type_legend_symbols",
+          "interactive": true,
+          "update": {
+            "opacity": [
+              {
+                "test": "(!length(data(\"type_opacity_store\")) || (type_opacity[\"Type\"] && indexof(type_opacity[\"Type\"], datum.value) >= 0))",
+                "value": 1
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "entries": {
+          "name": "Type_legend_entries",
+          "interactive": true,
+          "update": {"fill": {"value": "transparent"}}
+        }
+      }
+    }
+  ],
+  "config": {"style": {"label": {"align": "left", "baseline": "top", "dy": 3}}}
+}

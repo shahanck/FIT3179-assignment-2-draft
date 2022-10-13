@@ -1,0 +1,216 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 500,
+  "height": 400,
+  "title": {"text": "Deaths by Volcanoes", "frame": "group"},
+  "data": [
+    {"name": "status_opacity_store"},
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
+      "format": {"type": "csv", "delimiter": ","}
+    },
+    {
+      "name": "data_0",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!isValid(datum[\"Name\"]) || !isFinite(+datum[\"Name\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "status_opacity_Status_legend",
+      "value": null,
+      "on": [
+        {
+          "events": [
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Status_legend_symbols"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Status_legend_labels"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Status_legend_entries"
+            }
+          ],
+          "update": "datum.value || item().items[0].items[0].datum.value",
+          "force": true
+        },
+        {
+          "events": [{"source": "view", "type": "click"}],
+          "update": "!event.item || !datum ? null : status_opacity_Status_legend",
+          "force": true
+        }
+      ]
+    },
+    {
+      "name": "status_opacity",
+      "update": "vlSelectionResolve(\"status_opacity_store\", \"union\", true, true)"
+    },
+    {
+      "name": "status_opacity_tuple",
+      "update": "status_opacity_Status_legend !== null ? {fields: status_opacity_tuple_fields, values: [status_opacity_Status_legend]} : null"
+    },
+    {
+      "name": "status_opacity_tuple_fields",
+      "value": [{"type": "E", "field": "Status"}]
+    },
+    {
+      "name": "status_opacity_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": {"merge": [{"source": "view", "type": "click"}]},
+          "update": "event.shiftKey"
+        }
+      ]
+    },
+    {
+      "name": "status_opacity_modify",
+      "on": [
+        {
+          "events": {"signal": "status_opacity_tuple"},
+          "update": "modify(\"status_opacity_store\", status_opacity_toggle ? null : status_opacity_tuple, status_opacity_toggle ? null : true, status_opacity_toggle ? status_opacity_tuple : null)"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_marks",
+      "type": "arc",
+      "style": ["arc"],
+      "interactive": true,
+      "from": {"data": "data_0"},
+      "encode": {
+        "update": {
+          "fill": {"scale": "color", "field": "Status"},
+          "opacity": [
+            {
+              "test": "!length(data(\"status_opacity_store\")) || vlSelectionTest(\"status_opacity_store\", datum)",
+              "value": 1
+            },
+            {"value": 0}
+          ],
+          "tooltip": {
+            "signal": "{\"Name\": isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"], \"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"Deaths\": format(datum[\"DEATHS\"], \",\"), \"Latitude\": format(datum[\"Latitude\"], \"\"), \"Longitude\": format(datum[\"Longitude\"], \"\"), \"Elevation\": format(datum[\"Elevation\"], \"\"), \"Type\": isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"], \"Status\": isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"]}"
+          },
+          "description": {
+            "signal": "\"Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Status: \" + (isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"]) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Deaths: \" + (format(datum[\"DEATHS\"], \",\")) + \"; Latitude: \" + (format(datum[\"Latitude\"], \"\")) + \"; Longitude: \" + (format(datum[\"Longitude\"], \"\")) + \"; Elevation: \" + (format(datum[\"Elevation\"], \"\")) + \"; Type: \" + (isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "outerRadius": {"signal": "min(width,height)/2"},
+          "innerRadius": {"value": 0},
+          "startAngle": {"scale": "theta", "field": "Name"},
+          "endAngle": {
+            "scale": "theta",
+            "field": "Name",
+            "offset": {"scale": "theta", "band": 1}
+          }
+        }
+      }
+    },
+    {
+      "name": "layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "fill": {"value": "black"},
+          "description": {
+            "signal": "\"Status: \" + (isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "text": {
+            "signal": "isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"]"
+          },
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"}
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "theta",
+      "type": "band",
+      "domain": {
+        "data": "data_0",
+        "field": "Name",
+        "sort": {"op": "min", "field": "Status"}
+      },
+      "range": [0, 6.283185307179586]
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "data_0", "field": "Status", "sort": true},
+      "range": "category"
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "symbolType": "circle",
+      "title": "Status",
+      "encode": {
+        "labels": {
+          "name": "Status_legend_labels",
+          "interactive": true,
+          "update": {
+            "opacity": [
+              {
+                "test": "(!length(data(\"status_opacity_store\")) || (status_opacity[\"Status\"] && indexof(status_opacity[\"Status\"], datum.value) >= 0))",
+                "value": 1
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "symbols": {
+          "name": "Status_legend_symbols",
+          "interactive": true,
+          "update": {
+            "opacity": [
+              {
+                "test": "(!length(data(\"status_opacity_store\")) || (status_opacity[\"Status\"] && indexof(status_opacity[\"Status\"], datum.value) >= 0))",
+                "value": 1
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "entries": {
+          "name": "Status_legend_entries",
+          "interactive": true,
+          "update": {"fill": {"value": "transparent"}}
+        }
+      }
+    }
+  ],
+  "config": {"style": {"label": {"align": "left", "baseline": "top", "dy": 3}}}
+}

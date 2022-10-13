@@ -4,12 +4,12 @@
   "padding": 5,
   "width": 500,
   "height": 400,
-  "title": {"text": "Deaths by Volcanoes", "frame": "group"},
+  "title": {"text": "Status of Volcano", "frame": "group"},
   "data": [
     {"name": "status_opacity_store"},
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","}
     },
     {
@@ -143,7 +143,7 @@
           "description": {
             "signal": "\"Status: \" + (isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"])"
           },
-          "x": {"signal": "width", "mult": 0.5},
+          "x": {"signal": "width", "mult": 1},
           "y": {"signal": "height", "mult": 0.5},
           "text": {
             "signal": "isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"]"

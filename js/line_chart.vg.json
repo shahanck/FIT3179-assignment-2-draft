@@ -13,10 +13,6 @@
       "format": {"type": "csv", "delimiter": ","},
       "transform": [
         {
-          "type": "filter",
-          "expr": "!isValid(datum[\"Name\"]) || !isFinite(+datum[\"Name\"])"
-        },
-        {
           "type": "aggregate",
           "groupby": ["Year", "Deaths"],
           "ops": ["count"],
@@ -35,7 +31,7 @@
       "from": {"data": "source_0"},
       "encode": {
         "update": {
-          "stroke": {"value": "#4c78a8"},
+          "stroke": {"value": "#a12424"},
           "tooltip": {
             "signal": "{\"Deaths\": format(datum[\"Deaths\"], \",\")}"
           },
@@ -103,5 +99,5 @@
       "zindex": 0
     }
   ],
-  "config": {}
+  "config": {"range": {"color": "symbol"}}
 }

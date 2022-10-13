@@ -9,7 +9,7 @@
     {"name": "status_opacity_store"},
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","}
     },
     {
@@ -140,14 +140,8 @@
       "encode": {
         "update": {
           "fill": {"value": "black"},
-          "description": {
-            "signal": "\"Status: \" + (isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"])"
-          },
-          "x": {"signal": "width", "mult": 1},
+          "x": {"signal": "width", "mult": 0.5},
           "y": {"signal": "height", "mult": 0.5},
-          "text": {
-            "signal": "isValid(datum[\"Status\"]) ? datum[\"Status\"] : \"\"+datum[\"Status\"]"
-          },
           "align": {"value": "center"},
           "baseline": {"value": "middle"}
         }
@@ -168,8 +162,8 @@
     {
       "name": "color",
       "type": "ordinal",
-      "domain": {"data": "data_0", "field": "Status", "sort": true},
-      "range": "category"
+      "domain": ["Historical", "Holocene", "Tephrochronology"],
+      "range": ["#a12424", "#ee7b06", "#ffdb00"]
     }
   ],
   "legends": [

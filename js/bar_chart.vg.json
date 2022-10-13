@@ -1,103 +1,12 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "background": "white",
-  "padding": 5,
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 500,
   "height": 400,
-  "title": {"text": "Deaths by Volcanoes", "frame": "group"},
-  "style": "cell",
-  "data": [
-    {
-      "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
-      "format": {"type": "csv", "delimiter": ","}
-    },
-    {
-      "name": "data_0",
-      "source": "source_0",
-      "transform": [
-        {"type": "filter", "expr": "datum.DEATHS > Deaths_Above"},
-        {"type": "filter", "expr": "datum.DEATHS > 0"},
-        {
-          "type": "aggregate",
-          "groupby": ["Name"],
-          "ops": [
-            "sum",
-            "average",
-            "average",
-            "values",
-            "average",
-            "values",
-            "values"
-          ],
-          "fields": [
-            "DEATHS",
-            "Latitude",
-            "Longitude",
-            "Country",
-            "Elevation",
-            "Status",
-            "Type"
-          ],
-          "as": [
-            "sum_of_deaths",
-            "Latitude",
-            "Longitude",
-            "Country",
-            "Elevation",
-            "Status",
-            "Type"
-          ]
-        },
-        {
-          "type": "formula",
-          "expr": "datum[\"Country\"] && datum[\"Country\"][\"0\"] && datum[\"Country\"][\"0\"][\"Country\"]",
-          "as": "Country.0.Country"
-        },
-        {
-          "type": "formula",
-          "expr": "datum[\"Type\"] && datum[\"Type\"][\"0\"] && datum[\"Type\"][\"0\"][\"Type\"]",
-          "as": "Type.0.Type"
-        },
-        {
-          "type": "formula",
-          "expr": "datum[\"Status\"] && datum[\"Status\"][\"0\"] && datum[\"Status\"][\"0\"][\"Status\"]",
-          "as": "Status.0.Status"
-        },
-        {
-          "type": "stack",
-          "groupby": ["Name"],
-          "field": "sum_of_deaths",
-          "sort": {"field": [], "order": []},
-          "as": ["sum_of_deaths_start", "sum_of_deaths_end"],
-          "offset": "zero"
-        },
-        {
-          "type": "filter",
-          "expr": "isValid(datum[\"sum_of_deaths\"]) && isFinite(+datum[\"sum_of_deaths\"])"
-        }
-      ]
-    },
-    {
-      "name": "data_1",
-      "source": "source_0",
-      "transform": [
-        {"type": "filter", "expr": "datum.DEATHS > 0"},
-        {
-          "type": "aggregate",
-          "groupby": ["Name"],
-          "ops": ["sum"],
-          "fields": ["DEATHS"],
-          "as": ["sum_of_deaths"]
-        },
-        {
-          "type": "filter",
-          "expr": "isValid(datum[\"sum_of_deaths\"]) && isFinite(+datum[\"sum_of_deaths\"])"
-        }
-      ]
-    }
-  ],
-  "signals": [
+  "title": "Deaths by Volcanoes",
+  "data": {
+    "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv"
+  },
+  "params": [
     {
       "name": "Deaths_Above",
       "value": 0,
@@ -110,113 +19,69 @@
       }
     }
   ],
-  "marks": [
+  "layer": [
     {
-      "name": "layer_0_marks",
-      "type": "rect",
-      "style": ["bar"],
-      "from": {"data": "data_0"},
-      "encode": {
-        "update": {
-          "fill": {"value": "#4c78a8"},
-          "tooltip": {
-            "signal": "{\"Name\": isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"], \"Deaths\": format(datum[\"sum_of_deaths\"], \"\"), \"Country\": isValid(datum[\"Country.0.Country\"]) ? datum[\"Country.0.Country\"] : \"\"+datum[\"Country.0.Country\"], \"Latitude\": format(datum[\"Latitude\"], \"\"), \"Longitude\": format(datum[\"Longitude\"], \"\"), \"Elevation\": format(datum[\"Elevation\"], \"\"), \"Type\": isValid(datum[\"Type.0.Type\"]) ? datum[\"Type.0.Type\"] : \"\"+datum[\"Type.0.Type\"], \"Status\": isValid(datum[\"Status.0.Status\"]) ? datum[\"Status.0.Status\"] : \"\"+datum[\"Status.0.Status\"]}"
-          },
-          "ariaRoleDescription": {"value": "bar"},
-          "description": {
-            "signal": "\"Name of Volcano: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Deaths: \" + (format(datum[\"sum_of_deaths\"], \"\")) + \"; Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; Country: \" + (isValid(datum[\"Country.0.Country\"]) ? datum[\"Country.0.Country\"] : \"\"+datum[\"Country.0.Country\"]) + \"; Latitude: \" + (format(datum[\"Latitude\"], \"\")) + \"; Longitude: \" + (format(datum[\"Longitude\"], \"\")) + \"; Elevation: \" + (format(datum[\"Elevation\"], \"\")) + \"; Type: \" + (isValid(datum[\"Type.0.Type\"]) ? datum[\"Type.0.Type\"] : \"\"+datum[\"Type.0.Type\"]) + \"; Status: \" + (isValid(datum[\"Status.0.Status\"]) ? datum[\"Status.0.Status\"] : \"\"+datum[\"Status.0.Status\"])"
-          },
-          "x": {"scale": "x", "field": "Name"},
-          "width": {"scale": "x", "band": 1},
-          "y": {"scale": "y", "field": "sum_of_deaths_end"},
-          "y2": {"scale": "y", "field": "sum_of_deaths_start"}
+      "mark": {"type": "bar"},
+      "transform": [
+        {"filter": "datum.DEATHS > Deaths_Above"},
+        {"filter": "datum.DEATHS > 0"},
+        {
+          "aggregate": [
+            {"op": "sum", "field": "DEATHS", "as": "sum_of_deaths"},
+            {"op": "average", "field": "Latitude", "as": "Latitude"},
+            {"op": "average", "field": "Longitude", "as": "Longitude"},
+            {"op": "values", "field": "Country", "as": "Country"},
+            {"op": "average", "field": "Elevation", "as": "Elevation"},
+            {"op": "values", "field": "Status", "as": "Status"},
+            {"op": "values", "field": "Type", "as": "Type"}
+          ],
+          "groupby": ["Name"]
         }
-      }
-    },
-    {
-      "name": "layer_1_marks",
-      "type": "text",
-      "style": ["text"],
-      "from": {"data": "data_1"},
-      "encode": {
-        "update": {
-          "dy": {"value": -15},
-          "fill": {"value": "black"},
-          "description": {
-            "signal": "\"Name: \" + (isValid(datum[\"Name\"]) ? datum[\"Name\"] : \"\"+datum[\"Name\"]) + \"; sum_of_deaths: \" + (format(datum[\"sum_of_deaths\"], \"\"))"
+      ],
+      "encoding": {
+        "x": {"field": "Name", "type": "nominal", "title": "Name of Volcano"},
+        "y": {
+          "field": "sum_of_deaths",
+          "type": "quantitative",
+          "title": "Deaths"
+        },
+        "color":{"value": "#a12424"},
+        "tooltip": [
+          {"field": "Name", "type": "nominal"},
+          {"field": "sum_of_deaths", "type": "quantitative", "title": "Deaths"},
+          {
+            "field": "Country[0]['Country']",
+            "type": "nominal",
+            "title": "Country"
           },
-          "x": {"scale": "x", "field": "Name", "band": 0.5},
-          "y": {"scale": "y", "field": "sum_of_deaths"},
-          "text": {"signal": "format(datum[\"sum_of_deaths\"], \"\")"},
-          "align": {"value": "center"},
-          "baseline": {"value": "middle"}
-        }
-      }
-    }
-  ],
-  "scales": [
-    {
-      "name": "x",
-      "type": "band",
-      "domain": {
-        "fields": [
-          {"data": "data_0", "field": "Name"},
-          {"data": "data_1", "field": "Name"}
-        ],
-        "sort": true
-      },
-      "range": [0, {"signal": "width"}],
-      "paddingInner": 0.1,
-      "paddingOuter": 0.05
-    },
-    {
-      "name": "y",
-      "type": "linear",
-      "domain": {
-        "fields": [
-          {"data": "data_0", "field": "sum_of_deaths_start"},
-          {"data": "data_0", "field": "sum_of_deaths_end"},
-          {"data": "data_1", "field": "sum_of_deaths"}
+          {"field": "Latitude", "type": "quantitative"},
+          {"field": "Longitude", "type": "quantitative"},
+          {"field": "Elevation", "type": "quantitative"},
+          {"field": "Type[0]['Type']", "type": "nominal", "title": "Type"},
+          {"field": "Status[0]['Status']", "type": "nominal", "title": "Status"}
         ]
-      },
-      "range": [{"signal": "height"}, 0],
-      "nice": true,
-      "zero": true
-    }
-  ],
-  "axes": [
-    {
-      "scale": "y",
-      "orient": "left",
-      "gridScale": "x",
-      "grid": true,
-      "tickCount": {"signal": "ceil(height/40)"},
-      "domain": false,
-      "labels": false,
-      "aria": false,
-      "maxExtent": 0,
-      "minExtent": 0,
-      "ticks": false,
-      "zindex": 0
+      }
     },
     {
-      "scale": "x",
-      "orient": "bottom",
-      "grid": false,
-      "title": "Name of Volcano",
-      "labelAlign": "right",
-      "labelAngle": 270,
-      "labelBaseline": "middle",
-      "zindex": 0
-    },
-    {
-      "scale": "y",
-      "orient": "left",
-      "grid": false,
-      "title": "Deaths",
-      "labelOverlap": true,
-      "tickCount": {"signal": "ceil(height/40)"},
-      "zindex": 0
+      "mark": {"type": "text", "dy": -15},
+      "transform": [
+        {"filter": "datum.DEATHS > 0"},
+        {
+          "aggregate": [
+            {"op": "sum", "field": "DEATHS", "as": "sum_of_deaths"}
+          ],
+          "groupby": ["Name"]
+        }
+      ],
+      "encoding": {
+        "y": {
+          "field": "sum_of_deaths",
+          "type": "quantitative",
+          "sort": "ascending"
+        },
+        "x": {"field": "Name", "type": "nominal"},
+        "text": {"field": "sum_of_deaths", "type": "quantitative"}
+      }
     }
   ],
   "config": {

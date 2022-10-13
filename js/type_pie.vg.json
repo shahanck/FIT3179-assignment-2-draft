@@ -4,12 +4,12 @@
   "padding": 5,
   "width": 500,
   "height": 400,
-  "title": {"text": "Types of Volcanoes", "frame": "group"},
+  "title": {"text": "Type of Volcano", "frame": "group"},
   "data": [
     {"name": "type_opacity_store"},
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","}
     },
     {
@@ -140,14 +140,8 @@
       "encode": {
         "update": {
           "fill": {"value": "black"},
-          "description": {
-            "signal": "\"Type: \" + (isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"])"
-          },
-          "x": {"signal": "width", "mult": 1},
+          "x": {"signal": "width", "mult": 0.5},
           "y": {"signal": "height", "mult": 0.5},
-          "text": {
-            "signal": "isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"]"
-          },
           "align": {"value": "center"},
           "baseline": {"value": "middle"}
         }
@@ -168,8 +162,15 @@
     {
       "name": "color",
       "type": "ordinal",
-      "domain": {"data": "data_0", "field": "Type", "sort": true},
-      "range": "category"
+      "domain": [
+        "Caldera",
+        "Complex volcano",
+        "Lava dome",
+        "Shield volcano",
+        "Stratovolcano",
+        "Subglacial volcano"
+      ],
+      "range": ["black", "#400b0b", "#a12424", "#ee7b06", "#ffa904", "#ffdb00"]
     }
   ],
   "legends": [

@@ -9,7 +9,7 @@
     {"name": "type_opacity_store"},
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","}
     },
     {
@@ -140,8 +140,14 @@
       "encode": {
         "update": {
           "fill": {"value": "black"},
+          "description": {
+            "signal": "\"Type: \" + (isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"])"
+          },
           "x": {"signal": "width", "mult": 0.5},
           "y": {"signal": "height", "mult": 0.5},
+          "text": {
+            "signal": "isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"]"
+          },
           "align": {"value": "center"},
           "baseline": {"value": "middle"}
         }
@@ -170,7 +176,14 @@
         "Stratovolcano",
         "Subglacial volcano"
       ],
-      "range": ["#0f0d27", "#400b0b", "#a12424", "#ee7b06", "#ffa904", "#ffdb00"]
+      "range": [
+        "#eadab5",
+        "#ffdb00",
+        "#ffa904",
+        "#400b0b",
+        "#a12424",
+        "#5a4a40"
+      ]
     }
   ],
   "legends": [

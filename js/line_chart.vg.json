@@ -29,13 +29,14 @@
   "marks": [
     {
       "name": "layer_0_marks",
-      "type": "line",
-      "style": ["line"],
+      "type": "area",
+      "style": ["area"],
       "sort": {"field": "datum[\"Year\"]"},
       "from": {"data": "source_0"},
       "encode": {
         "update": {
-          "stroke": {"value": "#a12424"},
+          "orient": {"value": "vertical"},
+          "fill": {"value": "#a12424"},
           "tooltip": {
             "signal": "{\"Number of Eruptions\": format(datum[\"__count\"], \",\")}"
           },
@@ -44,6 +45,7 @@
           },
           "x": {"scale": "x", "field": "Year"},
           "y": {"scale": "y", "field": "__count"},
+          "y2": {"scale": "y", "value": 0},
           "defined": {
             "signal": "isValid(datum[\"__count\"]) && isFinite(+datum[\"__count\"])"
           }

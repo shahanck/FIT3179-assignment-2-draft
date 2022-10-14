@@ -10,11 +10,7 @@
     {
       "name": "source_0",
       "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
-      "format": {"type": "csv", "delimiter": ","}
-    },
-    {
-      "name": "data_0",
-      "source": "source_0",
+      "format": {"type": "csv", "delimiter": ","},
       "transform": [
         {
           "type": "filter",
@@ -101,7 +97,7 @@
       "type": "arc",
       "style": ["arc"],
       "interactive": true,
-      "from": {"data": "data_0"},
+      "from": {"data": "source_0"},
       "encode": {
         "update": {
           "fill": {"scale": "color", "field": "Type"},
@@ -130,28 +126,6 @@
           }
         }
       }
-    },
-    {
-      "name": "layer_1_marks",
-      "type": "text",
-      "style": ["text"],
-      "interactive": false,
-      "from": {"data": "source_0"},
-      "encode": {
-        "update": {
-          "fill": {"value": "black"},
-          "description": {
-            "signal": "\"Type: \" + (isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"])"
-          },
-          "x": {"signal": "width", "mult": 0.5},
-          "y": {"signal": "height", "mult": 0.5},
-          "text": {
-            "signal": "isValid(datum[\"Type\"]) ? datum[\"Type\"] : \"\"+datum[\"Type\"]"
-          },
-          "align": {"value": "center"},
-          "baseline": {"value": "middle"}
-        }
-      }
     }
   ],
   "scales": [
@@ -159,7 +133,7 @@
       "name": "theta",
       "type": "band",
       "domain": {
-        "data": "data_0",
+        "data": "source_0",
         "field": "Name",
         "sort": {"op": "min", "field": "Type"}
       },

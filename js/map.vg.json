@@ -2,14 +2,24 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 5,
-  "width": 1200,
-  "height": 800,
+  "width": 800,
+  "height": 600
+,
   "title": {"text": "Deaths by Volcanic Erruption", "frame": "group"},
   "data": [
     {
       "name": "source_0",
       "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/js/ne_110m.json",
       "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+    },
+    {
+      "name": "graticule",
+      "transform": [
+        {
+          "type": "graticule",
+          "step": [{"signal": "30"}, {"signal": "30"}]
+        }
+      ]
     },
     {
       "name": "source_1",
@@ -56,6 +66,20 @@
         }
       },
       "transform": [{"type": "geoshape", "projection": "projection"}]
+    },
+    {
+      "type": "shape",
+      "from": {"data": "graticule"},
+      "encode": {
+        "update": {
+          "strokeWidth": {"value": 1},
+          "stroke": {"value": "#ccc"},
+          "fill": {"value": null}
+        }
+      },
+      "transform": [
+        { "type": "geoshape", "projection": "projection" }
+      ]
     },
     {
       "name": "layer_1_marks",

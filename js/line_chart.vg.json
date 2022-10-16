@@ -110,8 +110,8 @@
       "orient": "bottom",
       "grid": false,
       "title": "Year",
-      "labelAlign": "right",
-      "labelAngle": 270,
+      "labelAlign": "center",
+      "labelAngle": 0,
       "labelBaseline": "middle",
       "zindex": 0
     },

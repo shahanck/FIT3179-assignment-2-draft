@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "background": "white",
+  "background": "blanchedalmond",
   "padding": 5,
-  "width": 500,
-  "height": 500,
+  "width": 450,
+  "height": 435,
   "title": {"text": "Eruptions per year", "frame": "group"},
   "style": "cell",
   "data": [
@@ -111,7 +111,7 @@
       "grid": false,
       "title": "Year",
       "labelAlign": "right",
-      "labelAngle": 270,
+      "labelAngle": 0,
       "labelBaseline": "middle",
       "zindex": 0
     },

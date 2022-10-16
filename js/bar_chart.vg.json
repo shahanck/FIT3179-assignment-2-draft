@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "background": "white",
+  "background": "blanchedalmond",
   "padding": 5,
-  "width": 500,
-  "height": 500,
+  "width": 450,
+  "height": 400,
   "title": {"text": "Deaths by Volcanoes", "frame": "group"},
   "style": "cell",
   "data": [

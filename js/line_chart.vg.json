@@ -2,14 +2,14 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 5,
-  "width": 600,
+  "width": 500,
   "height": 500,
   "title": {"text": "Eruptions per year", "frame": "group"},
   "style": "cell",
   "data": [
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","},
       "transform": [
         {
@@ -38,7 +38,7 @@
           "orient": {"value": "vertical"},
           "fill": {"value": "#a12424"},
           "tooltip": {
-            "signal": "{\"Number of Eruptions\": format(datum[\"__count\"], \",\")}"
+            "signal": "{\"Year\": isValid(datum[\"Year\"]) ? datum[\"Year\"] : \"\"+datum[\"Year\"], \"Number of Eruptions\": format(datum[\"__count\"], \",\")}"
           },
           "description": {
             "signal": "\"Year: \" + (isValid(datum[\"Year\"]) ? datum[\"Year\"] : \"\"+datum[\"Year\"]) + \"; Number of eruptions: \" + (format(datum[\"__count\"], \"\")) + \"; Number of Eruptions: \" + (format(datum[\"__count\"], \",\"))"
@@ -110,8 +110,8 @@
       "orient": "bottom",
       "grid": false,
       "title": "Year",
-      "labelAlign": "center",
-      "labelAngle": 0,
+      "labelAlign": "right",
+      "labelAngle": 270,
       "labelBaseline": "middle",
       "zindex": 0
     },

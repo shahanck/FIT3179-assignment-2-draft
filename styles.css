@@ -1,0 +1,36 @@
+#map {
+	padding: auto;
+}
+
+#bar_chart {
+	padding: auto;
+	padding-left: 50px;
+}
+
+#line_chart {
+	padding: auto;
+}
+
+#type_pie{
+	padding-left: 0cm;
+}
+
+#status_pie{
+	padding-right: 0cm;
+}
+
+.page {
+    width: 1000px;
+}
+
+.vis-container {
+    width: 100%;
+}
+
+.pure-g {
+    margin-bottom: 40px;
+}
+
+body {
+	background-color: beige;
+}

@@ -7,24 +7,26 @@
 }
 
 #bar_chart {
-	bottom: 1px;
-	left: 10px
+	bottom: 0px;
+	left: 0px
 
 }
 
 #line_chart {
-	top: 1px;
-	right: 10px
+	bottom: 15px;
+	right: 0px
 
 }
 
 #type_pie{
 	top: 10px;
+	left: 10px;
 
 }
 
 #status_pie{
 	top: 10px;
+	right: 20px;
 
 }
 

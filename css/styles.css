@@ -3,36 +3,33 @@
 	bottom: 10px; 
 	left: 10px;
 	right: 10px;
-	padding: auto;
 	
 }
 
 #bar_chart {
-	top: 50px;
-	bottom: 50px;
-	padding: auto;
+	bottom: 1px;
+	left: 10px
+
 }
 
 #line_chart {
-	top: 50px;
-	bottom: 50px;
-	padding: auto;
+	top: 1px;
+	right: 10px
+
 }
 
 #type_pie{
-	top: 150px;
-	bottom: 150px;
-	padding: auto;
+	top: 10px;
+
 }
 
 #status_pie{
-	top: 150px;
-	bottom: 150px;
-	padding: auto;
+	top: 10px;
+
 }
 
 .page {
-    width: 850px;
+    width: 1000px;
     margin: auto;
     padding: 50px;
 	background-color: blanchedalmond;
@@ -40,5 +37,5 @@
 }
 
 body {
-	background-color: beige;
+	background-color: #2d2513;
 }

@@ -1,0 +1,44 @@
+#map {
+	top:10px;
+	bottom: 10px; 
+	left: 10px;
+	right: 10px;
+	padding: auto;
+	
+}
+
+#bar_chart {
+	top: 50px;
+	bottom: 50px;
+	padding: auto;
+}
+
+#line_chart {
+	top: 50px;
+	bottom: 50px;
+	padding: auto;
+}
+
+#type_pie{
+	top: 150px;
+	bottom: 150px;
+	padding: auto;
+}
+
+#status_pie{
+	top: 150px;
+	bottom: 150px;
+	padding: auto;
+}
+
+.page {
+    width: 850px;
+    margin: auto;
+    padding: 50px;
+	background-color: blanchedalmond;
+    padding-top: 35px;
+}
+
+body {
+	background-color: beige;
+}

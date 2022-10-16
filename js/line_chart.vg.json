@@ -2,14 +2,14 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 5,
-  "width": 500,
+  "width": 600,
   "height": 500,
   "title": {"text": "Eruptions per year", "frame": "group"},
   "style": "cell",
   "data": [
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","},
       "transform": [
         {

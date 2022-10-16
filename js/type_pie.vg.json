@@ -2,14 +2,14 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 5,
-  "width": 500,
+  "width": 400,
   "height": 400,
   "title": {"text": "Type of Volcano", "frame": "group"},
   "data": [
     {"name": "type_opacity_store"},
     {
       "name": "source_0",
-      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-Week-10/main/data/volcano_data_2010.csv",
+      "url": "https://raw.githubusercontent.com/shahanck/FIT3179-assignment-2-draft/main/data/volcano_data_2010.csv",
       "format": {"type": "csv", "delimiter": ","},
       "transform": [
         {
